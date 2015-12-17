@@ -1,7 +1,7 @@
 var express = require('express'),
 	path = require('path'),
-	home = require('../routes/home.js'),
-	work = require('../routes/portfolio.js');
+	load = require('express-load');
+
 
 	module.exports = function () {
 		var app = express();
@@ -12,8 +12,10 @@ var express = require('express'),
 		app.set('content-type', 'text/html');
 		app.set('view engine', 'jade');
 
-		home(app);
-		work(app);
+		load('models')
+		.then('controllers')
+		.then('routes')
+		.into(app);
 
 		return app;
 	};
